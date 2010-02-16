@@ -125,7 +125,8 @@
 - (void)loadView {
   [super loadView];
 
-  CGRect frame = self.wantsFullScreenLayout ? TTScreenBounds() : TTNavigationFrame();
+  if ( self.nibName != nil ) return;
+  
   self.view = [[[UIView alloc] initWithFrame:frame] autorelease];
 	self.view.autoresizesSubviews = YES;
 	self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth
