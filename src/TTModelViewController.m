@@ -33,25 +33,28 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (id)init {
-  if (self = [super init]) {
-    _model = nil;
-    _modelError = nil;
-    _flags.isModelDidRefreshInvalid = NO;
-    _flags.isModelWillLoadInvalid = NO;
-    _flags.isModelDidLoadInvalid = NO;
-    _flags.isModelDidLoadFirstTimeInvalid = NO;
-    _flags.isModelDidShowFirstTimeInvalid = NO;
-    _flags.isViewInvalid = YES;
-    _flags.isViewSuspended = NO;
-    _flags.isUpdatingView = NO;
-    _flags.isShowingEmpty = NO;
-    _flags.isShowingLoading = NO;
-    _flags.isShowingModel = NO;
-    _flags.isShowingError = NO;
-  }
-  return self;
+    return [self initWithNibName:nil bundle:nil];
 }
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+        _model = nil;
+        _modelError = nil;
+        _flags.isModelDidRefreshInvalid = NO;
+        _flags.isModelWillLoadInvalid = NO;
+        _flags.isModelDidLoadInvalid = NO;
+        _flags.isModelDidLoadFirstTimeInvalid = NO;
+        _flags.isModelDidShowFirstTimeInvalid = NO;
+        _flags.isViewInvalid = YES;
+        _flags.isViewSuspended = NO;
+        _flags.isUpdatingView = NO;
+        _flags.isShowingEmpty = NO;
+        _flags.isShowingLoading = NO;
+        _flags.isShowingModel = NO;
+        _flags.isShowingError = NO;
+    }
+    return self;
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)dealloc {
