@@ -133,9 +133,8 @@ static const CGFloat kBannerViewHeight = 22;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // NSObject
 
-- (id)initWithStyle:(UITableViewStyle)style {
-  if (self = [super init]) {
-    _tableView = nil;
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+  if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
     _tableBannerView = nil;
     _tableOverlayView = nil;
     _loadingView = nil;
@@ -147,8 +146,15 @@ static const CGFloat kBannerViewHeight = 22;
     _tableDelegate = nil;
     _bannerTimer = nil;
     _variableHeightRows = NO;
+    _lastInterfaceOrientation = self.interfaceOrientation;      
+  }
+  return self;
+}
+
+- (id)initWithStyle:(UITableViewStyle)style {
+  if (self = [self initWithNibName:nil bundle:nil]) {
+    _tableView = nil;
     _tableViewStyle = style;
-    _lastInterfaceOrientation = self.interfaceOrientation;
   }
   return self;
 }
@@ -176,7 +182,12 @@ static const CGFloat kBannerViewHeight = 22;
 
 - (void)loadView {
   [super loadView];
-  self.tableView;
+    
+  if ( self.nibName == nil ) {
+    self.tableView;
+  } else {
+    _tableViewStyle = self.tableView.style;
+  }
 }
 
 - (void)viewDidUnload {
