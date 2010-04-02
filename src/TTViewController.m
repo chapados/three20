@@ -87,8 +87,16 @@
   return self;
 }
 
+/*
+ Must not replace the awakeFromNib with init, because it will cause the view
+ that is loaded from the NIB to be overwritten. 
+ 
+ If a viewcontroller is not using NIBs, then this is not called anyway, so it
+ is not clear why this change was ever made. 
+ */
 - (void)awakeFromNib {
-  [self init];
+	[super awakeFromNib];
+  //[self init];
 }
 
 - (void)dealloc {
@@ -122,15 +130,22 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // UIViewController
 
+/*
+ If we are loading from a nib, then assume it knows how to set itself up. 
+ Otherwise, we don't need to call super (per the Apple documentation) and we
+ just setup the view manually. 
+ */
 - (void)loadView {
-  [super loadView];
-
-  CGRect frame = self.wantsFullScreenLayout ? TTScreenBounds() : TTNavigationFrame();
-  self.view = [[[UIView alloc] initWithFrame:frame] autorelease];
-	self.view.autoresizesSubviews = YES;
-	self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth
-                              | UIViewAutoresizingFlexibleHeight;
-  self.view.backgroundColor = TTSTYLEVAR(backgroundColor);
+	if (self.nibName)
+		[super loadView];
+	else {
+		  CGRect frame = self.wantsFullScreenLayout ? TTScreenBounds() : TTNavigationFrame();
+		  self.view = [[[UIView alloc] initWithFrame:frame] autorelease];
+			self.view.autoresizesSubviews = YES;
+			self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth
+									  | UIViewAutoresizingFlexibleHeight;
+		  self.view.backgroundColor = TTSTYLEVAR(backgroundColor);
+	}
 }
 
 - (void)viewDidUnload {
