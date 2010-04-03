@@ -133,9 +133,12 @@ static const CGFloat kBannerViewHeight = 22;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // NSObject
 
-- (id)initWithStyle:(UITableViewStyle)style {
-  if (self = [super init]) {
-    _tableView = nil;
+/*
+ Called by TTViewController's init method
+ */
+-(void)commonSetup
+{
+	[super commonSetup];
     _tableBannerView = nil;
     _tableOverlayView = nil;
     _loadingView = nil;
@@ -147,8 +150,14 @@ static const CGFloat kBannerViewHeight = 22;
     _tableDelegate = nil;
     _bannerTimer = nil;
     _variableHeightRows = NO;
-    _tableViewStyle = style;
     _lastInterfaceOrientation = self.interfaceOrientation;
+	_tableViewStyle = UITableViewStylePlain;
+}	
+
+- (id)initWithStyle:(UITableViewStyle)style {
+  if (self = [super init]) { //calls commonSetup
+	  _tableView = nil;
+	  _tableViewStyle = style;
   }
   return self;
 }
@@ -176,7 +185,17 @@ static const CGFloat kBannerViewHeight = 22;
 
 - (void)loadView {
   [super loadView];
-  self.tableView;
+}
+
+-(void)viewDidLoad
+{
+	[super viewDidLoad];
+	if ( _tableView == nil ) {
+		self.tableView;
+	} else {
+		_tableViewStyle = self.tableView.style;
+	}
+	
 }
 
 - (void)viewDidUnload {

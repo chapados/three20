@@ -77,12 +77,25 @@
   _toolbar.top = self.view.height - _toolbar.height;
 }
 
+/**
+ * Provides access to the internal webview
+ */
+-(UIWebView *)webView {
+	return _webView ;
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark NSObject
 
+/*
+ Called by TTViewController's init method
+ */
+-(void)commonSetup
+{
+    self.hidesBottomBarWhenPushed = YES;	
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (id)initWithNavigatorURL:(NSURL*)URL query:(NSDictionary*)query {
@@ -100,8 +113,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (id)init {
-  if (self = [super init]) {
-    self.hidesBottomBarWhenPushed = YES;
+  if (self = [super init]) { //calls commonSetup
   }
   return self;
 }

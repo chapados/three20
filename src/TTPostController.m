@@ -146,8 +146,13 @@ static const CGFloat kMarginY = 6;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // NSObject
 
-- (id)initWithNavigatorURL:(NSURL*)URL query:(NSDictionary*)query {
-  if (self = [super init]) {
+/*
+ Called by TTViewController's init method
+ */
+-(void)commonSetup
+{
+	[super commonSetup];
+	
     _delegate = nil;
     _result = nil;
     _defaultText = nil;
@@ -158,7 +163,19 @@ static const CGFloat kMarginY = 6;
     _screenView = nil;
     _textView = nil;
     _activityView = nil;
+	
+    self.navigationItem.leftBarButtonItem = 
+	[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+												   target:self action:@selector(cancel)] autorelease];
+    self.navigationItem.rightBarButtonItem = 
+	[[[UIBarButtonItem alloc] initWithTitle:TTLocalizedString(@"Done", @"")
+									  style:UIBarButtonItemStyleDone
+									 target:self action:@selector(post)] autorelease];
+}
 
+- (id)initWithNavigatorURL:(NSURL*)URL query:(NSDictionary*)query {
+  if (self = [super init]) { //calls commonSetup
+	  
     if (query) {
       _delegate = [query objectForKey:@"delegate"];
       _defaultText = [[query objectForKey:@"text"] copy];
@@ -172,13 +189,6 @@ static const CGFloat kMarginY = 6;
       }
     }
 
-    self.navigationItem.leftBarButtonItem = 
-      [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-                                target:self action:@selector(cancel)] autorelease];
-    self.navigationItem.rightBarButtonItem = 
-      [[[UIBarButtonItem alloc] initWithTitle:TTLocalizedString(@"Done", @"")
-                                style:UIBarButtonItemStyleDone
-                                target:self action:@selector(post)] autorelease];
   }
   return self;
 }

@@ -32,8 +32,12 @@
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (id)init {
-  if (self = [super init]) {
+/*
+ Called by TTViewController's init method
+ */
+-(void)commonSetup
+{
+	[super commonSetup];	
     _model = nil;
     _modelError = nil;
     _flags.isModelDidRefreshInvalid = NO;
@@ -48,6 +52,10 @@
     _flags.isShowingLoading = NO;
     _flags.isShowingModel = NO;
     _flags.isShowingError = NO;
+}
+
+- (id)init {
+  if (self = [super init]) { //calls commonSetup
   }
   return self;
 }

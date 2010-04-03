@@ -93,4 +93,10 @@
  */
 - (void)keyboardDidDisappear:(BOOL)animated withBounds:(CGRect)bounds;
 
+/**
+ * initialization common to all init* methods
+ */
+-(void)commonSetup;
+
+
 @end

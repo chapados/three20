@@ -64,6 +64,11 @@
  */
 - (void)openRequest:(NSURLRequest*)request;
 
+/**
+ * Provides access to the internal webview
+ */
+-(UIWebView *)webView;
+
 @end
 
 
