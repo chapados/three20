@@ -35,9 +35,10 @@
 /*
  Called by TTViewController's init method
  */
--(void)commonSetup
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-	[super commonSetup];	
+	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
     _model = nil;
     _modelError = nil;
     _flags.isModelDidRefreshInvalid = NO;
@@ -52,10 +53,13 @@
     _flags.isShowingLoading = NO;
     _flags.isShowingModel = NO;
     _flags.isShowingError = NO;
+	}
+	return self;
+	
 }
 
 - (id)init {
-  if (self = [super init]) { //calls commonSetup
+  if (self = [self initWithNibName:nil bundle:nil]) {
   }
   return self;
 }

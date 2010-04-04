@@ -23,6 +23,9 @@
  * A view controller with some useful additions.
  */
 @interface TTViewController : UIViewController {
+#ifdef DEBUG
+	BOOL		m_initCalled; //verify new initialization works fine
+#endif
   NSDictionary* _frozenState;
   UIBarStyle _navigationBarStyle;
   UIColor* _navigationBarTintColor;
@@ -92,11 +95,6 @@
  * Sent to the controller after the keyboard has slid out.
  */
 - (void)keyboardDidDisappear:(BOOL)animated withBounds:(CGRect)bounds;
-
-/**
- * initialization common to all init* methods
- */
--(void)commonSetup;
 
 
 @end

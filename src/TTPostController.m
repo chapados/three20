@@ -146,13 +146,9 @@ static const CGFloat kMarginY = 6;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // NSObject
 
-/*
- Called by TTViewController's init method
- */
--(void)commonSetup
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-	[super commonSetup];
-	
+	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
     _delegate = nil;
     _result = nil;
     _defaultText = nil;
@@ -163,20 +159,22 @@ static const CGFloat kMarginY = 6;
     _screenView = nil;
     _textView = nil;
     _activityView = nil;
-	
+    
     self.navigationItem.leftBarButtonItem = 
-	[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-												   target:self action:@selector(cancel)] autorelease];
+    [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                   target:self action:@selector(cancel)] autorelease];
     self.navigationItem.rightBarButtonItem = 
-	[[[UIBarButtonItem alloc] initWithTitle:TTLocalizedString(@"Done", @"")
-									  style:UIBarButtonItemStyleDone
-									 target:self action:@selector(post)] autorelease];
+    [[[UIBarButtonItem alloc] initWithTitle:TTLocalizedString(@"Done", @"")
+                                      style:UIBarButtonItemStyleDone
+                                     target:self action:@selector(post)] autorelease];
+	}
+	return self;
 }
 
 - (id)initWithNavigatorURL:(NSURL*)URL query:(NSDictionary*)query {
-  if (self = [super init]) { //calls commonSetup
-	  
-    if (query) {
+  
+    if (self = [self initWithNibName:nil bundle:nil]) {
+      if (query) {
       _delegate = [query objectForKey:@"delegate"];
       _defaultText = [[query objectForKey:@"text"] copy];
       

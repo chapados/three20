@@ -89,12 +89,13 @@
 #pragma mark -
 #pragma mark NSObject
 
-/*
- Called by TTViewController's init method
- */
--(void)commonSetup
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
+	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
     self.hidesBottomBarWhenPushed = YES;	
+	}
+	return self;
+	
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -113,7 +114,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (id)init {
-  if (self = [super init]) { //calls commonSetup
+  if (self = [self initWithNibName:nil bundle:nil]) {
   }
   return self;
 }

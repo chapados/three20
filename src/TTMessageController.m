@@ -362,16 +362,17 @@
   return self;
 }
 
-- (id)init {
-  if (self = [super init]) {
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
     _delegate = nil;
     _dataSource = nil;
     _fields = [[NSArray alloc] initWithObjects:
-      [[[TTMessageRecipientField alloc] initWithTitle:
-        TTLocalizedString(@"To:", @"") required:YES] autorelease],
-      [[[TTMessageSubjectField alloc] initWithTitle:
-        TTLocalizedString(@"Subject:", @"") required:NO] autorelease],
-      nil];
+               [[[TTMessageRecipientField alloc] initWithTitle:
+                 TTLocalizedString(@"To:", @"") required:YES] autorelease],
+               [[[TTMessageSubjectField alloc] initWithTitle:
+                 TTLocalizedString(@"Subject:", @"") required:NO] autorelease],
+               nil];
     _fieldViews = nil;
     _initialRecipients = nil;
     _activityView = nil;
@@ -379,14 +380,21 @@
     _isModified = NO;
     
     self.title = TTLocalizedString(@"New Message", @"");
-
+    
     self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:
-      TTLocalizedString(@"Cancel", @"")
-      style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)] autorelease];
+                                              TTLocalizedString(@"Cancel", @"")
+                                                                              style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)] autorelease];
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:
-      TTLocalizedString(@"Send", @"")
-      style:UIBarButtonItemStyleDone target:self action:@selector(send)] autorelease];
+                                               TTLocalizedString(@"Send", @"")
+                                                                               style:UIBarButtonItemStyleDone target:self action:@selector(send)] autorelease];
     self.navigationItem.rightBarButtonItem.enabled = NO;
+	}
+	return self;
+	
+}
+
+- (id)init {
+  if (self = [self initWithNibName:nil bundle:nil]) {
   }
   return self;
 }

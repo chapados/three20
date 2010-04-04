@@ -24,17 +24,18 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // NSObject
-/*
- Called by TTViewController's init method
- */
--(void)commonSetup
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-	[super commonSetup];	
+	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
     _statusBarStyle = [UIApplication sharedApplication].statusBarStyle;
-}	
+	}
+	return self;
+	
+}
 
 - (id)init {
-  if (self = [super init]) { //calls commonSetup
+  if (self = [self initWithNibName:nil bundle:nil]) {
   }
   return self;
 }

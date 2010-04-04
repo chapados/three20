@@ -75,11 +75,21 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // NSObject
 
-- (id)initWithTitle:(NSString*)title delegate:(id)delegate {
-  if (self = [super init]) {
-    _delegate = delegate;
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+    _delegate = nil;
     _userInfo = nil;
     _URLs = [[NSMutableArray alloc] init];
+    
+	}
+	return self;
+	
+}
+
+- (id)initWithTitle:(NSString*)title delegate:(id)delegate {
+  if (self = [self initWithNibName:nil bundle:nil]) {
+    _delegate = delegate;
     
     if (title) {
       self.actionSheet.title = title;

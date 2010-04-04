@@ -73,10 +73,15 @@
 // NSObject
 
 /*
+ Since this is the designated initializer for UIViewController, this contains
  initialization common to all init* methods
  */
--(void)commonSetup
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
+	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+#ifdef DEBUG
+    m_initCalled = YES;
+#endif	    
     _frozenState = nil;
     _navigationBarStyle = UIBarStyleDefault;
     _navigationBarTintColor = nil;
@@ -84,26 +89,19 @@
     _hasViewAppeared = NO;
     _isViewAppearing = NO;
     _autoresizesForKeyboard = NO;
-	
+    
     self.navigationBarTintColor = TTSTYLEVAR(navigationBarTintColor);
-	
-}
-
-- (id)init {
-  if (self = [super init]) {
-	  [self commonSetup];
-  }
-  return self;
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-		[self commonSetup];
 	}
 	return self;
 	
 }
+
+- (id)init {
+  if (self = [self initWithNibName:nil bundle:nil]) {
+  }
+  return self;
+}
+
 /*
  Must not replace the awakeFromNib with init, because it will cause the view
  that is loaded from the NIB to be overwritten. 
@@ -162,6 +160,12 @@
     self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.view.backgroundColor = TTSTYLEVAR(backgroundColor);
   }
+}
+
+- (void)viewDidLoad
+{	
+	TTDASSERT(m_initCalled); //make sure that we got properly initialized
+  [super viewDidLoad];
 }
 
 - (void)viewDidUnload {
