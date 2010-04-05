@@ -146,13 +146,14 @@ static const CGFloat kBannerViewHeight = 22;
     _tableDelegate = nil;
     _bannerTimer = nil;
     _variableHeightRows = NO;
-    _lastInterfaceOrientation = self.interfaceOrientation;      
+    _lastInterfaceOrientation = self.interfaceOrientation;
+    _tableViewStyle = UITableViewStylePlain;
   }
   return self;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style {
-  if (self = [self initWithNibName:nil bundle:nil]) {
+  if (self = [self initWithNibName:nil bundle:nil]) { 
     _tableView = nil;
     _tableViewStyle = style;
   }
@@ -182,11 +183,24 @@ static const CGFloat kBannerViewHeight = 22;
 
 - (void)loadView {
   [super loadView];
-    
-  if ( self.nibName == nil ) {
-    self.tableView;
-  } else {
-    _tableViewStyle = self.tableView.style;
+}
+
+-(void)viewDidLoad
+{
+  [super viewDidLoad];
+  self.tableView; //create the tableView if it doesn't already exist
+  
+  TTDASSERT(![self.view isKindOfClass:TTTableView.class]);
+  TTDASSERT([self.tableView isKindOfClass:TTTableView.class]);
+  TTDASSERT(self.tableView.superview == self.view);
+  _tableViewStyle = self.tableView.style;
+  
+  UIColor* backgroundColor = _tableViewStyle == UITableViewStyleGrouped
+  ? TTSTYLEVAR(tableGroupedBackgroundColor)
+  : TTSTYLEVAR(tablePlainBackgroundColor);
+  if (backgroundColor) {
+    _tableView.backgroundColor = backgroundColor;
+    self.view.backgroundColor = backgroundColor;
   }
 }
 
@@ -504,7 +518,9 @@ static const CGFloat kBannerViewHeight = 22;
 // public
 
 - (UITableView*)tableView {
+  
   if (!_tableView) {
+    
     _tableView = [[TTTableView alloc] initWithFrame:self.view.bounds style:_tableViewStyle];
     _tableView.autoresizingMask =  UIViewAutoresizingFlexibleWidth
                                    | UIViewAutoresizingFlexibleHeight;

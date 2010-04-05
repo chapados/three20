@@ -72,12 +72,15 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // NSObject
 
-- (id)init {
-  return [self initWithNibName:nil bundle:nil];
-}
-
+/*
+ Since this is the designated initializer for UIViewController, this contains
+ initialization common to all init* methods
+ */
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
   if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+#ifdef DEBUG
+    m_initCalled = YES;
+#endif	    
     _frozenState = nil;
     _navigationBarStyle = UIBarStyleDefault;
     _navigationBarTintColor = nil;
@@ -85,10 +88,26 @@
     _hasViewAppeared = NO;
     _isViewAppearing = NO;
     _autoresizesForKeyboard = NO;
-
+    
     self.navigationBarTintColor = TTSTYLEVAR(navigationBarTintColor);
   }
   return self;
+}
+
+- (id)init {
+  return [self initWithNibName:nil bundle:nil];
+}
+
+/*
+ Must not replace the awakeFromNib with init, because it will cause the view
+ that is loaded from the NIB to be overwritten. 
+ 
+ If a viewcontroller is not using NIBs, then this is not called anyway, so it
+ is not clear why this change was ever made. 
+ */
+- (void)awakeFromNib {
+	[super awakeFromNib];
+  //[self init];
 }
 
 - (void)dealloc {
@@ -122,16 +141,27 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // UIViewController
 
+/*
+ If we are loading from a nib, then assume it knows how to set itself up. 
+ Otherwise, we don't need to call super (per the Apple documentation) and we
+ just setup the view manually. 
+ */
 - (void)loadView {
-  [super loadView];
+  if (self.nibName)
+    [super loadView];
+  else {
+    CGRect frame = self.wantsFullScreenLayout ? TTScreenBounds() : TTNavigationFrame();
+    self.view = [[[UIView alloc] initWithFrame:frame] autorelease];
+    self.view.autoresizesSubviews = YES;
+    self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.view.backgroundColor = TTSTYLEVAR(backgroundColor);
+  }
+}
 
-  if ( self.nibName != nil ) return;
-  
-  self.view = [[[UIView alloc] initWithFrame:frame] autorelease];
-	self.view.autoresizesSubviews = YES;
-	self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth
-                              | UIViewAutoresizingFlexibleHeight;
-  self.view.backgroundColor = TTSTYLEVAR(backgroundColor);
+- (void)viewDidLoad
+{	
+  TTDASSERT(m_initCalled); //make sure that we got properly initialized
+  [super viewDidLoad];
 }
 
 - (void)viewDidUnload {

@@ -62,8 +62,10 @@ static CGFloat kPadding = 5;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // NSObject
 
-- (id)initWithNavigatorURL:(NSURL*)URL query:(NSDictionary*)query {
-  if (self = [super init]) {
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
     _delegate = nil;
     _result = nil;
     _defaultText = nil;
@@ -71,7 +73,13 @@ static CGFloat kPadding = 5;
     _postButton = nil;
     _footerBar = nil;
     _previousRightBarButtonItem = nil;
+	}
+	return self;
+	
+}
 
+- (id)initWithNavigatorURL:(NSURL*)URL query:(NSDictionary*)query {
+  if (self = [self initWithNibName:nil bundle:nil]) {
     if (query) {
       _delegate = [query objectForKey:@"delegate"];
       _defaultText = [[query objectForKey:@"text"] copy];

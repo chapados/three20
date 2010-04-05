@@ -77,12 +77,26 @@
   _toolbar.top = self.view.height - _toolbar.height;
 }
 
+/**
+ * Provides access to the internal webview
+ */
+-(UIWebView *)webView {
+	return _webView ;
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark NSObject
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+    self.hidesBottomBarWhenPushed = YES;	
+	}
+	return self;
+	
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (id)initWithNavigatorURL:(NSURL*)URL query:(NSDictionary*)query {
@@ -100,8 +114,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (id)init {
-  if (self = [super init]) {
-    self.hidesBottomBarWhenPushed = YES;
+  if (self = [self initWithNibName:nil bundle:nil]) {
   }
   return self;
 }

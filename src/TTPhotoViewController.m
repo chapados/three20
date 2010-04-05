@@ -313,8 +313,9 @@ static const NSInteger kActivityLabelTag = 96;
   return self;
 }
 
-- (id)init {
-  if (self = [super init]) {
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
     _photoSource = nil;
     _centerPhoto = nil;
     _centerPhotoIndex = 0;
@@ -332,16 +333,23 @@ static const NSInteger kActivityLabelTag = 96;
     _delayLoad = NO;
     
     self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:
-      TTLocalizedString(@"Photo", @"Title for back button that returns to photo browser")
-      style:UIBarButtonItemStylePlain target:nil action:nil] autorelease];
-
+                                              TTLocalizedString(@"Photo", @"Title for back button that returns to photo browser")
+                                                                              style:UIBarButtonItemStylePlain target:nil action:nil] autorelease];
+    
     self.statusBarStyle = UIStatusBarStyleBlackTranslucent;
     self.navigationBarStyle = UIBarStyleBlackTranslucent;
     self.navigationBarTintColor = nil;
     self.wantsFullScreenLayout = YES;
     self.hidesBottomBarWhenPushed = YES;
-
+    
     self.defaultImage = TTIMAGE(@"bundle://Three20.bundle/images/photoDefault.png");
+	}
+	return self;
+	
+}
+
+- (id)init {
+  if (self = [self initWithNibName:nil bundle:nil]) {
   }
   return self;
 }
